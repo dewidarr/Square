@@ -13,8 +13,10 @@ import android.util.Log;
 
 import com.example.dewidar.repository.R;
 
+import java.io.Serializable;
+
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public class ExampleJobService extends JobService {
+    public class ExampleJobService extends JobService implements Serializable {
         private static final String TAG = "ExampleJobService";
         private boolean jobCancelled = false;
 

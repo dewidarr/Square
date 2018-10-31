@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class SquareModel implements ISquareContract.IRequestModel {
                                 String ownerurl=ownerinfo.getString("html_url");
                                 String ownerName=ownerinfo.getString("login");
 
-                                requests.add(new Squarevaluse(name,descrption,ownerName,repoFork,repoUrl,ownerurl,context));
+                                requests.add(new Squarevaluse(name,descrption,ownerName,repoFork,repoUrl,ownerurl));
                                 Log.i("ownerurl", ownerurl.toString());
                             }
                             Log.i("squarerequst", requests.toString());
@@ -67,6 +68,7 @@ public class SquareModel implements ISquareContract.IRequestModel {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Erroe", error.toString());
+                        listener.onFailure("noNetwork");
                     }
                 });
         Volley.newRequestQueue(context).add(jsonArrayRequest);

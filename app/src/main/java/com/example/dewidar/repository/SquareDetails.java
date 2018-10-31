@@ -10,7 +10,9 @@ import android.webkit.WebView;
 
 import com.example.dewidar.repository.square.SquareActivity;
 
-public class SquareDetails extends AppCompatActivity {
+import java.io.Serializable;
+
+public class SquareDetails extends AppCompatActivity  {
     WebView myWebView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

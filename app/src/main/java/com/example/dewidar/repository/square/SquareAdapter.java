@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
         this.context = context;
         this.squarevaluse = squarevaluse;
         exampleListFull = new ArrayList<>(squarevaluse);
+
     }
 
     //create viewHolder to hold the content
@@ -87,7 +89,6 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
             }
         });
 
-        final Context context = squarevaluse.get(position).context;
     }
 
     @Override

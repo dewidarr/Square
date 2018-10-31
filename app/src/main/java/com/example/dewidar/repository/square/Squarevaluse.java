@@ -2,85 +2,75 @@ package com.example.dewidar.repository.square;
 
 import android.content.Context;
 
-public class Squarevaluse {
+import java.io.Serializable;
 
-    String repoName;
-    String repoDescrption;
-    String repoOwnerName;
-    String repoFork;
-    String repoUrl;
-    String OwnerUrl;
-    Context context;
+  public class Squarevaluse implements Serializable {
+      String repoName;
+      String repoDescrption;
+      String repoOwnerName;
+      String repoFork;
+      String repoUrl;
+      String OwnerUrl;
 
+      public Squarevaluse(String repoName, String repoDescrption,
+                          String repoOwnerName, String repoFork, String repoUrl,
+                          String ownerUrl) {
+          this.repoName = repoName;
+          this.repoDescrption = repoDescrption;
+          this.repoOwnerName = repoOwnerName;
+          this.repoFork = repoFork;
+          this.repoUrl = repoUrl;
+          OwnerUrl = ownerUrl;
+      }
 
-    public Squarevaluse(String repoName, String repoDescrption, String repoOwnerName,
-                        String repoFork, String repoUrl, String ownerUrl, Context context) {
-        this.repoName = repoName;
-        this.repoDescrption = repoDescrption;
-        this.repoOwnerName = repoOwnerName;
-        this.repoFork = repoFork;
-        this.repoUrl = repoUrl;
-        this.OwnerUrl = ownerUrl;
-        this.context = context;
-    }
+      public String getRepoName() {
+          return repoName;
+      }
 
-    public void setRepoName(String repoName) {
-        this.repoName = repoName;
-    }
+      public void setRepoName(String repoName) {
+          this.repoName = repoName;
+      }
 
-    public void setRepoDescrption(String repoDescrption) {
-        this.repoDescrption = repoDescrption;
-    }
+      public String getRepoDescrption() {
+          return repoDescrption;
+      }
 
-    public void setRepoOwnerName(String repoOwnerName) {
-        this.repoOwnerName = repoOwnerName;
-    }
+      public void setRepoDescrption(String repoDescrption) {
+          this.repoDescrption = repoDescrption;
+      }
 
-    public void setRepoFork(String repoFork) {
-        this.repoFork = repoFork;
-    }
+      public String getRepoOwnerName() {
+          return repoOwnerName;
+      }
 
-    public void setRepoUrl(String repoUrl) {
-        this.repoUrl = repoUrl;
-    }
+      public void setRepoOwnerName(String repoOwnerName) {
+          this.repoOwnerName = repoOwnerName;
+      }
 
-    public void setOwnerUrl(String ownerUrl) {
-        OwnerUrl = ownerUrl;
-    }
+      public String getRepoFork() {
+          return repoFork;
+      }
 
-    public String getRepoName() {
+      public void setRepoFork(String repoFork) {
+          this.repoFork = repoFork;
+      }
 
-        return repoName;
-    }
+      public String getRepoUrl() {
+          return repoUrl;
+      }
 
-    public String getRepoDescrption() {
-        return repoDescrption;
-    }
+      public void setRepoUrl(String repoUrl) {
+          this.repoUrl = repoUrl;
+      }
 
-    public String getRepoOwnerName() {
-        return repoOwnerName;
-    }
+      public String getOwnerUrl() {
+          return OwnerUrl;
+      }
 
-    public String getRepoFork() {
-        return repoFork;
-    }
-
-    public String getRepoUrl() {
-        return repoUrl;
-    }
-
-    public String getOwnerUrl() {
-        return OwnerUrl;
-    }
-
-    public Context getContext() {
-        return this.context;
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-}
+      public void setOwnerUrl(String ownerUrl) {
+          OwnerUrl = ownerUrl;
+      }
+  }
 
 
 

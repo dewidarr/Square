@@ -4,13 +4,17 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 
 public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquareContract.IRequestModel.onRequestFinishedListener {
     ISquareContract.IRequestView mIRequestView;
@@ -49,13 +53,17 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
         squareadapter = new SquareAdapter(recyclerView.getContext(), list);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(squareadapter);
-        try {
-            saveHiddenFormulas(context, list);
+        mIRequestView.setadapter(squareadapter);
+
+         try {
+            writeObject(context, "cachedSquarelist", list);
         } catch (IOException e) {
+            Log.d("cashedlistpresenter", String.valueOf(e));
+
             e.printStackTrace();
         }
-        mIRequestView.setadapter(squareadapter);
-/*
+
+        /*
 
          RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
             @Override
@@ -87,30 +95,38 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
 
     }
 
-    public void saveHiddenFormulas(Context context, List<Squarevaluse> hiddenFormulas) throws IOException {
-        Log.i("saved2", String.valueOf(hiddenFormulas));
-
-
-        FileOutputStream fileOutputStream = context.openFileOutput("HiddenFormulas.txt", MODE_PRIVATE);
-        ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
-        out.writeObject(hiddenFormulas);
-
-        for (int i = 0; i < hiddenFormulas.size(); i++) {
-            Log.i("savedhiden", String.valueOf(hiddenFormulas.get(i)));
-        }
-
-        out.close();
-        fileOutputStream.close();
-
-    }
-
     @Override
     public void onFailure(String message) {
 
         if (mIRequestView != null) {
-            // mIRequestView.hideProgress();
-            mIRequestView.showAlert(message);
+            try {
+                Toast.makeText(context, "NoNetwork", Toast.LENGTH_SHORT).show();
+               List<Squarevaluse> list=(List<Squarevaluse>) readObject(context,"cachedSquarelist");
+               onSuccess(list);
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
+    }
+    public static void writeObject(Context context, String key, Object object) throws IOException {
+        FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(object);
+        oos.close();
+        fos.close();
+    }
+    public static Object readObject(Context context, String key) throws IOException,
+            ClassNotFoundException {
+        FileInputStream fis = context.openFileInput(key);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Object object = ois.readObject();
+        return object;
     }
 
 }

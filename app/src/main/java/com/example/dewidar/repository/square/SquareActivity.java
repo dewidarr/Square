@@ -25,10 +25,12 @@ import com.example.dewidar.repository.R;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class SquareActivity extends AppCompatActivity implements ISquareContract.IRequestView {
     private DrawerLayout drawer;
@@ -37,7 +39,6 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
     @BindView(R.id.list)
     RecyclerView recyclerView;
     SquareAdapter adapter;
-    List<Squarevaluse> result;
 
     private ISquareContract.IRequestPresenter mRequestPresenter;
 
@@ -48,29 +49,23 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         setContentView(R.layout.squarelist);
         ButterKnife.bind(this);
 
-
         backgroundnotfication();
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-
             @Override
-
             public void onRefresh() {
 
                  adapter.clear();
-                 setnewlist();
 
+                 setnewlist();
             }
         });
 
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
-
                 android.R.color.holo_orange_light,
-
                 android.R.color.holo_red_light);
         mRequestPresenter = new SquarePresenter(this);
         mRequestPresenter.getRequests(this, recyclerView);
@@ -80,7 +75,6 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-
 
     }
 
@@ -100,24 +94,6 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         } else {
             Log.i("schedual", "Job scheduling failed");
         }
-    }
-
-
-    private static List<Squarevaluse> readSavedHiddenFormulas(Context context) {
-        List<Squarevaluse> savedList = null;
-        try {
-            FileInputStream inputStream = context.openFileInput("HiddenFormulas.txt");
-            ObjectInputStream in = new ObjectInputStream(inputStream);
-            savedList = (List<Squarevaluse>) in.readObject();
-            in.close();
-            inputStream.close();
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        Log.i("saved2", String.valueOf(savedList));
-
-        return savedList;
     }
 
     void setnewlist(){
@@ -143,7 +119,6 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mRequestPresenter.onDestroy();
     }
 
@@ -175,5 +150,7 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         });
         return true;
     }
+
+
 }
 
