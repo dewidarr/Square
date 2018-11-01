@@ -1,76 +1,67 @@
 package com.example.dewidar.repository.square;
 
-import android.content.Context;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-  public class Squarevaluse implements Serializable {
-      String repoName;
-      String repoDescrption;
-      String repoOwnerName;
-      String repoFork;
-      String repoUrl;
-      String OwnerUrl;
+public class Squarevaluse implements Serializable {
 
-      public Squarevaluse(String repoName, String repoDescrption,
-                          String repoOwnerName, String repoFork, String repoUrl,
-                          String ownerUrl) {
-          this.repoName = repoName;
-          this.repoDescrption = repoDescrption;
-          this.repoOwnerName = repoOwnerName;
-          this.repoFork = repoFork;
-          this.repoUrl = repoUrl;
-          OwnerUrl = ownerUrl;
-      }
+    String name;
+    String description;
+    @SerializedName("owner")
+    Ownervaluse ownervaluses = null;
+    String fork;
+    String html_url;
 
-      public String getRepoName() {
-          return repoName;
-      }
+    public String getName() {
+        return name;
+    }
 
-      public void setRepoName(String repoName) {
-          this.repoName = repoName;
-      }
+    public String getDescription() {
+        return description;
+    }
 
-      public String getRepoDescrption() {
-          return repoDescrption;
-      }
+    public Ownervaluse getOwnervaluses() {
+        return ownervaluses;
+    }
 
-      public void setRepoDescrption(String repoDescrption) {
-          this.repoDescrption = repoDescrption;
-      }
+    public String getFork() {
+        return fork;
+    }
 
-      public String getRepoOwnerName() {
-          return repoOwnerName;
-      }
+    public String getHtml_url() {
+        return html_url;
+    }
 
-      public void setRepoOwnerName(String repoOwnerName) {
-          this.repoOwnerName = repoOwnerName;
-      }
+    public Squarevaluse(String name, String description, Ownervaluse ownervaluses, String fork, String html_url) {
+        this.name = name;
+        this.description = description;
+        this.ownervaluses = ownervaluses;
+        this.fork = fork;
+        this.html_url = html_url;
 
-      public String getRepoFork() {
-          return repoFork;
-      }
 
-      public void setRepoFork(String repoFork) {
-          this.repoFork = repoFork;
-      }
+    }
 
-      public String getRepoUrl() {
-          return repoUrl;
-      }
+    public static class Ownervaluse implements Serializable {
+        String login;
+        String html_url;
 
-      public void setRepoUrl(String repoUrl) {
-          this.repoUrl = repoUrl;
-      }
+        public Ownervaluse(String login, String html_url) {
+            this.login = login;
+            this.html_url = html_url;
+        }
 
-      public String getOwnerUrl() {
-          return OwnerUrl;
-      }
+        public String getLogin() {
+            return login;
+        }
 
-      public void setOwnerUrl(String ownerUrl) {
-          OwnerUrl = ownerUrl;
-      }
-  }
+        public String getHtml_url() {
+            return html_url;
+        }
+    }
+
+}
 
 
 

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 
 import com.example.dewidar.repository.R;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -49,16 +50,23 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         setContentView(R.layout.squarelist);
         ButterKnife.bind(this);
 
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+
         backgroundnotfication();
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                 adapter.clear();
+                adapter.clear();
 
-                 setnewlist();
+                setnewlist();
             }
         });
 
@@ -70,21 +78,15 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         mRequestPresenter = new SquarePresenter(this);
         mRequestPresenter.getRequests(this, recyclerView);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar1);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    void backgroundnotfication(){
+    void backgroundnotfication() {
         ComponentName componentName = new ComponentName(this, ExampleJobService.class);
         JobInfo info = new JobInfo.Builder(123, componentName)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
                 .setPersisted(true)
-                .setPeriodic(15 *60* 1000)
+                .setPeriodic(60 * 60 * 1000)
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
@@ -96,24 +98,27 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
         }
     }
 
-    void setnewlist(){
+    void setnewlist() {
+
+        File cachedir = getApplicationContext().getFileStreamPath("cachedSquarelist");
+        cachedir.delete();
+        Log.i("deletedfile", String.valueOf(cachedir));
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mRequestPresenter.getRequests(getApplicationContext(), recyclerView);
                 swipeContainer.setRefreshing(false);
             }
         }, 1200);
-
+        mRequestPresenter.getRequests(getApplicationContext(), recyclerView);
 
     }
 
 
     @Override
     public void showAlert(String message) {
-     //   StyleableToast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT,R.style.mytoast).show();
+        //   StyleableToast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT,R.style.mytoast).show();
     }
 
     @Override
@@ -125,7 +130,7 @@ public class SquareActivity extends AppCompatActivity implements ISquareContract
 
     @Override
     public void setadapter(SquareAdapter adapter) {
-        this.adapter=adapter;
+        this.adapter = adapter;
     }
 
     @Override

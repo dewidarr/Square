@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquareContract.IRequestModel.onRequestFinishedListener {
+public class SquarePresenter implements ISquareContract.IRequestPresenter, ISquareContract.IRequestModel.onRequestFinishedListener {
     ISquareContract.IRequestView mIRequestView;
     ISquareContract.IRequestModel mIRequestModel;
     private SquareAdapter squareadapter;
@@ -27,7 +27,6 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
     List<Squarevaluse> sharepreflist;
 
     public SquarePresenter(ISquareContract.IRequestView mIRequestView) {
-
         this.mIRequestView = mIRequestView;
         mIRequestModel = new SquareModel();
     }
@@ -55,7 +54,7 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
         recyclerView.setAdapter(squareadapter);
         mIRequestView.setadapter(squareadapter);
 
-         try {
+        try {
             writeObject(context, "cachedSquarelist", list);
         } catch (IOException e) {
             Log.d("cashedlistpresenter", String.valueOf(e));
@@ -63,35 +62,6 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
             e.printStackTrace();
         }
 
-        /*
-
-         RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                if (!isLoading && !isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                            && firstVisibleItemPosition >= 0
-                            && totalItemCount >= PAGE_SIZE) {
-                        Toast.makeText(context, "yes", Toast.LENGTH_SHORT).show();
-                       // loadMoreItems();
-                        squareadapter = new SquareAdapter(recyclerView.getContext(), list);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext() ));
-                        recyclerView.setAdapter(squareadapter);
-                    }
-                }
-            }
-        };
-*/
 
     }
 
@@ -101,19 +71,18 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
         if (mIRequestView != null) {
             try {
                 Toast.makeText(context, "NoNetwork", Toast.LENGTH_SHORT).show();
-               List<Squarevaluse> list=(List<Squarevaluse>) readObject(context,"cachedSquarelist");
-               onSuccess(list);
+                List<Squarevaluse> list = (List<Squarevaluse>) readObject(context, "cachedSquarelist");
+                onSuccess(list);
 
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
         }
     }
+
     public static void writeObject(Context context, String key, Object object) throws IOException {
         FileOutputStream fos = context.openFileOutput(key, Context.MODE_PRIVATE);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -121,6 +90,7 @@ public class SquarePresenter implements ISquareContract.IRequestPresenter,ISquar
         oos.close();
         fos.close();
     }
+
     public static Object readObject(Context context, String key) throws IOException,
             ClassNotFoundException {
         FileInputStream fis = context.openFileInput(key);

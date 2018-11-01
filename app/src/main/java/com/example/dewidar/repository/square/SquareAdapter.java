@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,19 +46,17 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final SquareAdapter.ViewHolder holder, final int position) {
         final Squarevaluse h = squarevaluse.get(position);
 
-      holder.reponame.setText(squarevaluse.get(position).repoName);
-        holder.repoDescrption.setText(squarevaluse.get(position).repoDescrption);
-        holder.ownerName.setText(squarevaluse.get(position).repoOwnerName);
+        holder.reponame.setText(squarevaluse.get(position).name);
+        holder.repoDescrption.setText(squarevaluse.get(position).description);
+        holder.ownerName.setText(squarevaluse.get(position).ownervaluses.login);
 
-      if (squarevaluse.get(position).repoFork=="false")
-       {
-           holder.cardView.setCardBackgroundColor(Color.parseColor("#32CD32"));
-       }else
-           {
-               holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
-           }
+        if (squarevaluse.get(position).fork == "false") {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#32CD32"));
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+        }
 
-
+        //alertDialog
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             //get postion info url and send to webactivity activity
             @Override
@@ -73,14 +70,14 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Intent intent = new Intent(context, SquareDetails.class);
-                                intent.putExtra("weburl", squarevaluse.get(position).repoUrl);
+                                intent.putExtra("weburl", squarevaluse.get(position).html_url);
                                 context.startActivity(intent);
 
                             }
                         }).setNegativeButton("Repository Owner", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(context, SquareDetails.class);
-                        intent.putExtra("weburl", squarevaluse.get(position).OwnerUrl);
+                        intent.putExtra("weburl", squarevaluse.get(position).ownervaluses.html_url);
                         context.startActivity(intent);
 
                     }
@@ -107,10 +104,11 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
             reponame = itemView.findViewById(R.id.reponame);
             ownerName = itemView.findViewById(R.id.ownername);
             repoDescrption = itemView.findViewById(R.id.repodescrotion);
-            cardView=itemView.findViewById(R.id.repocardview);
+            cardView = itemView.findViewById(R.id.repocardview);
         }
     }
 
+    //search filtering
     @Override
     public Filter getFilter() {
         return exampleFilter;
@@ -128,7 +126,7 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
 
                 for (Squarevaluse item : exampleListFull) {
 
-                    if (item.repoName.toLowerCase().contains(filterPattern)) {
+                    if (item.name.toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
@@ -147,13 +145,12 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
             notifyDataSetChanged();
         }
     };
-    public void clear() {
 
+    //call this method to clear adapter list data or make one to add a new lis...
+    public void clear() {
         exampleListFull.clear();
         squarevaluse.clear();
-
         notifyDataSetChanged();
-
     }
 
 }
